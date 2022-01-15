@@ -1,5 +1,3 @@
-const bigInt = require('big-integer');
-
 function bytesIsEqual(bytes1, bytes2) {
   if (bytes1.length !== bytes2.length) {
     return false;
@@ -39,7 +37,7 @@ function hexToBytes(value, length) {
 }
 
 function bytesToBigInt(bytes) {
-  return bigInt(bytesToHex(bytes), 16);
+  return BigInt(bytesToHex(bytes), 16);
 }
 
 function xorBytes(bytes1, bytes2) {
@@ -87,13 +85,13 @@ function bytesToBytesRaw(bytes) {
 }
 
 function longToBytesRaw(value) {
-  const result = hexToBytesRaw(bigInt(value).toString(16), 8).reverse();
+  const result = hexToBytesRaw(BigInt(value).toString(16), 8).reverse();
 
   return result;
 }
 
 function intsToLong(low, high) {
-  return bigInt(low).shiftLeft(32).add(bigInt(high)).toString(10);
+  return BigInt(low).shiftLeft(32).add(BigInt(high)).toString(10);
 }
 
 function getRandomInt(maxValue) {

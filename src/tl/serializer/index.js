@@ -1,4 +1,3 @@
-const bigInt = require('big-integer');
 const Counter = require('../counter');
 const builderMap = require('../builder');
 
@@ -39,7 +38,7 @@ class Serializer {
       return;
     }
 
-    const { quotient, remainder } = bigInt(value).divmod(bigInt(0x100000000));
+    const { quotient, remainder } = BigInt(value).divmod(BigInt(0x100000000));
 
     this.uint32(remainder.toJSNumber());
     this.uint32(quotient.toJSNumber());

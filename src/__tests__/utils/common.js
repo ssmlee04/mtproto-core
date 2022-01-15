@@ -1,4 +1,3 @@
-const bigInt = require('big-integer');
 const {
   bytesIsEqual,
   bigIntToBytes,
@@ -33,7 +32,7 @@ describe('bytesIsEqual', function () {
 });
 
 describe('bigIntToBytes', function () {
-  const reslut = bigIntToBytes(bigInt(0xffffffff));
+  const reslut = bigIntToBytes(BigInt(0xffffffff));
   const expectedResult = new Uint8Array([255, 255, 255, 255]);
 
   it('return Uint8Array', function () {

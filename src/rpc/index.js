@@ -1,4 +1,3 @@
-const bigInt = require('big-integer');
 const debounce = require('lodash.debounce');
 const AES = require('../crypto/aes');
 const builderMap = require('../tl/builder');
@@ -222,7 +221,7 @@ class RPC {
     );
 
     this.dhPrime = bytesToBigInt(serverDHInnerData.dh_prime);
-    this.g = bigInt(serverDHInnerData.g);
+    this.g = BigInt(serverDHInnerData.g);
     this.gA = bytesToBigInt(serverDHInnerData.g_a);
 
     this.verifyDhParams(this.g, this.dhPrime, this.gA);
@@ -242,17 +241,19 @@ class RPC {
       throw new Error('Server_DH_inner_data.dh_prime incorrect');
     }
 
-    if (gA.lesserOrEquals(bigInt.one)) {
+    // if (gA.lesserOrEquals(bigInt.one)) {
+    if (gA.lesserOrEquals(1)) {
       throw new Error('Server_DH_inner_data.g_a incorrect: g_a <= 1');
     }
 
-    if (gA.greaterOrEquals(dhPrime.minus(bigInt.one))) {
+    // if (gA.greaterOrEquals(dhPrime.minus(bigInt.one))) {
+    if (gA.greaterOrEquals(dhPrime.minus(1))) {
       throw new Error(
         'Server_DH_inner_data.g_a incorrect: g_a >= dh_prime - 1'
       );
     }
 
-    const twoPow = bigInt(2).pow(2048 - 64);
+    const twoPow = BigInt(2).pow(2048 - 64);
 
     if (gA.lesser(twoPow)) {
       throw new Error('Server_DH_inner_data.g_a incorrect: g_a < 2^{2048-64}');
@@ -454,7 +455,7 @@ class RPC {
   async handleDecryptedMessage(message, params = {}) {
     const { messageId } = params;
 
-    if (bigInt(messageId).isEven()) {
+    if (BigInt(messageId).isEven()) {
       this.debug('message id from server is even', message);
 
       return;
@@ -489,7 +490,7 @@ class RPC {
       }
 
       if ([16, 17].includes(message.error_code)) {
-        const serverTime = bigInt(messageId).shiftRight(32).toJSNumber();
+        const serverTime = BigInt(messageId).shiftRight(32).toJSNumber();
         const timeOffset = Math.floor(Date.now() / 1000) - serverTime;
 
         await this.context.storage.set('timeOffset', timeOffset);

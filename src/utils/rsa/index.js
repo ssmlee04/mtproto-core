@@ -1,4 +1,3 @@
-const bigInt = require('big-integer');
 const Serializer = require('../../tl/serializer');
 const {
   bytesToHex,
@@ -72,7 +71,7 @@ class RSA {
         return;
       }
 
-      const fingerprintHex = bigInt(fingerprint).toString(16);
+      const fingerprintHex = BigInt(fingerprint).toString(16);
 
       const foundKey = publisKeysByHex[fingerprintHex];
 
@@ -89,8 +88,8 @@ class RSA {
 
   encrypt(publicKey, bytes) {
     const encryptedBigInt = bytesToBigInt(bytes).modPow(
-      bigInt(publicKey.exponent, 16),
-      bigInt(publicKey.modulus, 16)
+      BigInt(publicKey.exponent, 16),
+      BigInt(publicKey.modulus, 16)
     );
 
     return bigIntToBytes(encryptedBigInt, 256);

@@ -1,4 +1,3 @@
-const bigInt = require('big-integer');
 const {
   xorBytes,
   concatBytes,
@@ -34,7 +33,7 @@ class Crypto {
 
     const encoder = new TextEncoder();
 
-    const gBigInt = bigInt(g);
+    const gBigInt = BigInt(g);
     const gBytes = bigIntToBytes(gBigInt, 256);
     const pBigInt = bytesToBigInt(p);
     const aBigInt = bytesToBigInt(this.getRandomBytes(256));
