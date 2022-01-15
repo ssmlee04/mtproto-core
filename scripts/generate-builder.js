@@ -129,7 +129,7 @@ apiSchema.constructors.forEach(constructor => {
   builderMapLines.push(`  '${predicate}': function(params) {\n${body}\n  },`);
 });
 
-apiSchema.methods.forEach(method => {
+apiSchema.methods.filter(d => d.pick).forEach(method => {
   const { id, method: name, params } = method;
 
   const body = [`    this.int32(${id});`, ...paramsToLines(params)].join('\n');
