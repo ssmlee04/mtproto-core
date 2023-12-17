@@ -1514,6 +1514,9 @@ const builderMap = {
     this.vector(this.predicate, params.chats);
     this.vector(this.predicate, params.users);
   },
+  'account.getWebAuthorizations': function(params) {
+    this.int32(405695855);
+  },
   'accountDaysTTL': function(params) {
     this.int32(-1194283041);
     this.int(params.days);
